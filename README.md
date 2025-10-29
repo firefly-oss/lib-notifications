@@ -102,6 +102,55 @@ Then add one or more adapter libraries based on your notification needs:
 
 See individual adapter READMEs for configuration details.
 
+## Configuration
+
+This library uses Spring Boot relaxed property binding. Both kebab-case and camelCase property names are accepted (e.g., `api-key` or `apiKey`). The examples below use kebab-case; if your service uses camelCase (as seen in some projects), it will also work.
+
+### Provider Selection
+
+If you include multiple email providers, select one using:
+
+```yaml path=null start=null
+notifications:
+  email:
+    provider: resend   # or sendgrid
+```
+
+Only the selected email provider will be instantiated.
+
+### Provider Properties
+
+Configure providers in your `application.yml`:
+
+```yaml path=null start=null
+# Twilio (SMS)
+twilio:
+  config:
+    account-sid: ${TWILIO_ACCOUNT_SID}
+    auth-token: ${TWILIO_AUTH_TOKEN}
+    phone-number: "+1234567890"
+
+# SendGrid (Email)
+sendgrid:
+  api-key: ${SENDGRID_API_KEY}
+
+# Resend (Email)
+resend:
+  api-key: ${RESEND_API_KEY}
+  default-from: "noreply@example.com"
+  # base-url: https://api.resend.com   # optional; override for testing
+
+# Firebase (Push)
+firebase:
+  project-id: ${FIREBASE_PROJECT_ID}
+  credentials-path: ${FIREBASE_CREDENTIALS_PATH}   # optional; uses ADC if omitted
+```
+
+Notes:
+- Use either kebab-case (recommended) or camelCase (e.g., `accountSid`, `authToken`, `phoneNumber`, `apiKey`, `projectId`, `credentialsPath`). Both are supported.
+- Providers are conditionally loaded only when required properties are present.
+- Avoid configuring more than one email provider at the same time unless `notifications.email.provider` is explicitly set.
+
 ## Usage
 
 Inject the service interfaces from the core module. Spring automatically wires the adapter implementations you've added to your classpath.
