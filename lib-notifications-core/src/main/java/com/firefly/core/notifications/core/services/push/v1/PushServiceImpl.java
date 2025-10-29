@@ -24,10 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-//@Service
+@Service
 public class PushServiceImpl implements PushService {
 
-    //@Autowired
+    @Autowired
     private PushProvider pushProvider;
 
     @Override
