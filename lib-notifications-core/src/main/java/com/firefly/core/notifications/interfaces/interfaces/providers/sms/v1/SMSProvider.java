@@ -20,12 +20,22 @@ package com.firefly.core.notifications.interfaces.interfaces.providers.sms.v1;
 import com.firefly.core.notifications.interfaces.dtos.sms.v1.SMSRequestDTO;
 import com.firefly.core.notifications.interfaces.dtos.sms.v1.SMSResponseDTO;
 
+/**
+ * Port (outbound interface) for sending SMS notifications.
+ * <p>
+ * In hexagonal architecture, this interface represents an output port that defines
+ * the contract for SMS delivery. Concrete implementations (adapters) provide the
+ * actual infrastructure integration (e.g., Twilio, AWS SNS, Vonage).
+ * <p>
+ * The core domain and application layers depend only on this interface, never on
+ * specific implementations, ensuring clean separation of concerns and testability.
+ */
 public interface SMSProvider {
 
     /**
-     * Send SMS using the provider's infrastructure
+     * Send an SMS using the provider's infrastructure.
      *
-     * @param request SMS request containing message details
+     * @param request SMS request containing recipient phone number and message text
      * @return Response containing delivery status and message ID
      */
     SMSResponseDTO sendSMS(SMSRequestDTO request);

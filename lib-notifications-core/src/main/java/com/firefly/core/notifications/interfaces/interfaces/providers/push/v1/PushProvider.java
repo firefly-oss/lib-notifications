@@ -21,6 +21,22 @@ import com.firefly.core.notifications.interfaces.dtos.push.v1.PushNotificationRe
 import com.firefly.core.notifications.interfaces.dtos.push.v1.PushNotificationResponse;
 import reactor.core.publisher.Mono;
 
+/**
+ * Port (outbound interface) for sending push notifications.
+ * <p>
+ * In hexagonal architecture, this interface represents an output port that defines
+ * the contract for push notification delivery. Concrete implementations (adapters)
+ * provide the actual infrastructure integration (e.g., Firebase Cloud Messaging).
+ * <p>
+ * The core domain and application layers depend only on this interface, never on
+ * specific implementations, ensuring clean separation of concerns.
+ */
 public interface PushProvider {
+    /**
+     * Send a push notification using the provider's infrastructure.
+     *
+     * @param request Push notification request containing message details, recipient token, and optional data payload
+     * @return A reactive response containing delivery status and message ID
+     */
     Mono<PushNotificationResponse> sendPush(PushNotificationRequest request);
 }

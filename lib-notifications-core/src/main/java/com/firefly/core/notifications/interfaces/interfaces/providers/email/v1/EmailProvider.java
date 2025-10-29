@@ -21,11 +21,22 @@ import com.firefly.core.notifications.interfaces.dtos.email.v1.EmailRequestDTO;
 import com.firefly.core.notifications.interfaces.dtos.email.v1.EmailResponseDTO;
 import reactor.core.publisher.Mono;
 
+/**
+ * Port (outbound interface) for sending email notifications.
+ * <p>
+ * In hexagonal architecture, this interface represents an output port that defines
+ * the contract for email delivery. Concrete implementations (adapters) provide the
+ * actual infrastructure integration (e.g., SendGrid, Resend, AWS SES).
+ * <p>
+ * The core domain and application layers depend only on this interface, never on
+ * specific implementations, ensuring clean separation of concerns and testability.
+ */
 public interface EmailProvider {
     /**
-     * Send an email using the provider's infrastructure
-     * @param request Email request containing message details
-     * @return Response containing delivery status and message ID
+     * Send an email using the provider's infrastructure.
+     *
+     * @param request Email request containing sender, recipients, subject, body (text/HTML), and optional attachments
+     * @return A reactive response containing delivery status and message ID
      */
     Mono<EmailResponseDTO> sendEmail(EmailRequestDTO request);
 }
